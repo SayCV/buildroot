@@ -11,6 +11,15 @@ UBOOT_TOOLS_LICENSE = GPL-2.0+
 UBOOT_TOOLS_LICENSE_FILES = Licenses/gpl-2.0.txt
 UBOOT_TOOLS_INSTALL_STAGING = YES
 
+# --ignore-command-error
+define HOST_UBOOT_TOOLS_EXTRACT_CMDS
+	$(BZCAT) $(UBOOT_TOOLS_DL_DIR)/$(UBOOT_TOOLS_SOURCE) | \
+	$(TAR) --skip-old-files --strip-components=$(UBOOT_TOOLS_STRIP_COMPONENTS) \
+		-C $(HOST_UBOOT_TOOLS_DIR) \
+		$(foreach x,$(UBOOT_TOOLS_EXCLUDES),--exclude='$(x)' ) \
+		$(TAR_OPTIONS) - ||:
+endef
+
 define UBOOT_TOOLS_CONFIGURE_CMDS
 	mkdir -p $(@D)/include/config
 	touch $(@D)/include/config/auto.conf
@@ -88,7 +97,22 @@ define HOST_UBOOT_TOOLS_CONFIGURE_CMDS
 	touch $(@D)/include/config/auto.conf
 endef
 
+ifneq ($(filter $(HOSTARCH),i386 x86_64),)
+HOST_UBOOT_TOOLS_HOST_ARCH = x86
+else
+HOST_UBOOT_TOOLS_HOST_ARCH = $(HOSTARCH)
+endif
+
+ifeq ($(KERNEL_ARCH),arm64)
+HOST_UBOOT_TOOLS_HOST_ARCH = arm
+else ifneq ($(filter $(KERNEL_ARCH),i386 x86_64),)
+HOST_UBOOT_TOOLS_HOST_ARCH = x86
+else
+HOST_UBOOT_TOOLS_HOST_ARCH = $(KERNEL_ARCH)
+endif
+
 HOST_UBOOT_TOOLS_MAKE_OPTS = HOSTCC="$(HOSTCC)" \
+	ARCH=$(HOST_UBOOT_TOOLS_HOST_ARCH) \
 	HOSTCFLAGS="$(HOST_CFLAGS)" \
 	HOSTLDFLAGS="$(HOST_LDFLAGS)"
 
