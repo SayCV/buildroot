@@ -1,0 +1,15 @@
+diff --git "a/libfakeroot.c" "b/libfakeroot.c"
+index 8cb0b17..5935fa0 100644
+--- "a/libfakeroot.c"
++++ "b/libfakeroot.c"
+@@ -59,6 +59,10 @@
+ #include "config.h"
+ #include "communicate.h"
+ 
++#ifndef _STAT_VER
++# define _STAT_VER	0
++#endif
++
+ #ifdef __APPLE__
+ /* The *xattr functions are currently disabled on __APPLE__ since the prototypes
+    are all different from the Linux versions and there is, as of yet, no
