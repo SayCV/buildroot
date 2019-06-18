@@ -80,6 +80,12 @@ BUSYBOX_CFLAGS += "`$(PKG_CONFIG_HOST_BINARY) --cflags libtirpc`"
 BUSYBOX_CFLAGS_busybox += "`$(PKG_CONFIG_HOST_BINARY) --libs libtirpc`"
 endif
 
+define BUSYBOX_FIX_FIXDEP
+	cp -rf utils/fixupdep.py $(@D)/fixupdep.py
+endef
+
+BUSYBOX_POST_CONFIGURE_HOOKS += BUSYBOX_FIX_FIXDEP
+
 BUSYBOX_BUILD_CONFIG = $(BUSYBOX_DIR)/.config
 # Allows the build system to tweak CFLAGS
 BUSYBOX_MAKE_ENV = \
