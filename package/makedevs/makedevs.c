@@ -39,6 +39,11 @@
 #include <sys/capability.h>
 #endif /* EXTENDED_ATTRIBUTES */
 
+#if 1
+#define fgetpwent(x) getpwent()
+#define fgetgrent(x) getgrent()
+#endif
+
 const char *bb_applet_name;
 uid_t recursive_uid;
 gid_t recursive_gid;

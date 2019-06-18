@@ -1,0 +1,31 @@
+diff --git "a/configure" "b/configure"
+index 12ddffd..347a0de 100644
+--- "a/configure"
++++ "b/configure"
+@@ -5618,7 +5618,7 @@ echo "include_mpn(\`vax/elf.m4')" >> $gmp_tmpconfigm4i
+ 	    # Sun cc.
+ 	    cc_64_cflags="-xO3 -m64"
+ 	    ;;
+-	  *-*-mingw* | *-*-cygwin)
++	  *-*-mingw* | *-*-cygwin | *-*-msys)
+ 	    limb_64=longlong
+ 	    CALLING_CONVENTIONS_OBJS_64=""
+ 
+@@ -27275,7 +27275,7 @@ echo "include_mpn(\`x86_64/x86_64-defs.m4')" >> $gmp_tmpconfigm4i
+ 
+ echo "include_mpn(\`x86_64/darwin.m4')" >> $gmp_tmpconfigm4i
+  ;;
+-	    *-*-mingw* | *-*-cygwin)
++	    *-*-mingw* | *-*-cygwin | *-*-msys)
+ 
+ echo "include_mpn(\`x86_64/dos64.m4')" >> $gmp_tmpconfigm4i
+  ;;
+@@ -30733,7 +30733,7 @@ $as_echo "$as_me: summary of build options:
+ 
+ if test x$cross_compiling = xyes ; then
+    case "$host" in
+-     *-*-mingw* | *-*-cygwin)
++     *-*-mingw* | *-*-cygwin | *-*-msys)
+      if test x$ABI = x64 ; then
+ 	{ $as_echo "$as_me:${as_lineno-$LINENO}: If wine64 is installed, use make check TESTS_ENVIRONMENT=wine64." >&5
+ $as_echo "$as_me: If wine64 is installed, use make check TESTS_ENVIRONMENT=wine64." >&6;}

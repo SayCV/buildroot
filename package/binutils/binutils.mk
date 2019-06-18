@@ -135,6 +135,11 @@ endif
 # with copies instead.
 BINUTILS_TOOLS = ar as ld ld.bfd nm objcopy objdump ranlib readelf strip
 define HOST_BINUTILS_FIXUP_HARDLINKS
+	if test ! -f $(HOST_DIR)/bin/$(GNU_TARGET_NAME)-ld.exe; then
+    	echo hardhack by cv...
+		cp -a $(HOST_DIR)/bin/$(GNU_TARGET_NAME)-ld.bfd.exe \
+			$(HOST_DIR)/bin/$(GNU_TARGET_NAME)-ld.exe
+	fi
 	$(foreach tool,$(BINUTILS_TOOLS),\
 		rm -f $(HOST_DIR)/$(GNU_TARGET_NAME)/bin/$(tool) && \
 		cp -a $(HOST_DIR)/bin/$(GNU_TARGET_NAME)-$(tool) \
