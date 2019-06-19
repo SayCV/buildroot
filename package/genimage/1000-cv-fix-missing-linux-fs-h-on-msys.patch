@@ -1,0 +1,39 @@
+diff --git "a/util.c" "b/util.c"
+index f659548..6d3c62a 100644
+--- "a/util.c"
++++ "b/util.c"
+@@ -20,11 +20,14 @@
+ #include <string.h>
+ #include <stdlib.h>
+ #include <errno.h>
++// #define __USE_LINUX_IOCTL_DEFS
+ #include <sys/ioctl.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/wait.h>
+-#include <linux/fs.h>
++#ifdef HAVE_LINUX_FS_H
++# include <linux/fs.h>
++#endif
+ #include <unistd.h>
+ #include <fcntl.h>
+ #include <ctype.h>
+@@ -32,6 +35,18 @@
+ 
+ #include "genimage.h"
+ 
++#ifndef _IO
++# define _IO _LINUX_IO
++#endif
++
++#ifndef BLKRRPART
++# define BLKRRPART _IO(0x12,95)
++#endif
++
++#if !(defined(AT_NO_AUTOMOUNT) || (defined(HAVE_DECL_AT_NO_AUTOMOUNT) && HAVE_DECL_AT_NO_AUTOMOUNT))
++# define AT_NO_AUTOMOUNT 0x800
++#endif
++
+ static int loglevel(void)
+ {
+ 	static int level = -1;
