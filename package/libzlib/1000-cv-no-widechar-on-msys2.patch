@@ -1,0 +1,26 @@
+ gzguts.h       | 2 +-
+ win32/zlib.def | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/gzguts.h b/gzguts.h
+index 990a4d2..6378d46 100644
+--- a/gzguts.h
++++ b/gzguts.h
+@@ -39,7 +39,7 @@
+ #  include <io.h>
+ #endif
+ 
+-#if defined(_WIN32) || defined(__CYGWIN__)
++#if defined(_WIN32)
+ #  define WIDECHAR
+ #endif
+ 
+diff --git a/win32/zlib.def b/win32/zlib.def
+index 784b138..0cb3f5d 100644
+--- a/win32/zlib.def
++++ b/win32/zlib.def
+@@ -91,4 +91,3 @@ EXPORTS
+     inflateCodesUsed
+     inflateResetKeep
+     deflateResetKeep
+-    gzopen_w

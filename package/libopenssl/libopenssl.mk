@@ -16,6 +16,12 @@ LIBOPENSSL_TARGET_ARCH = linux-generic32
 LIBOPENSSL_CFLAGS = $(TARGET_CFLAGS)
 LIBOPENSSL_PROVIDES = openssl
 
+HOST2_LIBOPENSSL_PATCH = \
+	https://raw.githubusercontent.com/msys2/MSYS2-packages/master/openssl/0001-Use-usr-ssl-as-ca-dir-instead-of-.-demoCA.patch \
+	https://raw.githubusercontent.com/msys2/MSYS2-packages/master/openssl/0002-Support-MSYS2.patch \
+	https://raw.githubusercontent.com/msys2/MSYS2-packages/master/openssl/0003-tls13secretstest-work-around-multiple-definition-of.patch \
+	https://raw.githubusercontent.com/msys2/MSYS2-packages/master/openssl/0004-Override-engines-directory.patch
+
 ifeq ($(BR2_m68k_cf),y)
 # relocation truncated to fit: R_68K_GOT16O
 LIBOPENSSL_CFLAGS += -mxgot
