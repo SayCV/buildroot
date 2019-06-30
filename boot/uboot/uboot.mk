@@ -225,6 +225,7 @@ define UBOOT_FIX_FIXDEP
 	cp -rf utils/fixupdep.py $(@D)/fixupdep.py
 	$(SED) 's%	scripts/basic/fixdep%	python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Kbuild.include
 	$(SED) 's%	scripts/basic/fixdep%	python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Makefile.build
+	$(SED) 's%$$(call cmd,cfgcheck,u-boot.cfg)%\#$$(call cmd,cfgcheck,u-boot.cfg)%' $(@D)/Makefile
 endef
 UBOOT_PRE_CONFIGURE_HOOKS += UBOOT_FIX_FIXDEP
 
