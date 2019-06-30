@@ -82,7 +82,7 @@ endif
 
 define BUSYBOX_FIX_FIXDEP
 	cp -rf utils/fixupdep.py $(@D)/fixupdep.py
-	$(SED) 's%scripts/basic/fixdep%python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Makefile.build
+	$(SED) 's%	scripts/basic/fixdep%	python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Makefile.build
 endef
 
 BUSYBOX_POST_CONFIGURE_HOOKS += BUSYBOX_FIX_FIXDEP

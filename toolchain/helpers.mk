@@ -99,11 +99,11 @@ copy_toolchain_lib_root = \
 #     libstdc++ and other gcc support libraries outside of the
 #     sysroot)
 copy_toolchain_sysroot = \
-	SYSROOT_DIR="$(strip $1)"; \
-	ARCH_SYSROOT_DIR="$(strip $2)"; \
-	ARCH_SUBDIR="$(strip $3)"; \
-	ARCH_LIB_DIR="$(strip $4)" ; \
-	SUPPORT_LIB_DIR="$(strip $5)" ; \
+	SYSROOT_DIR="$(cygpath -u $(strip $1))"; \
+	ARCH_SYSROOT_DIR="$(cygpath -u $(strip $2))"; \
+	ARCH_SUBDIR="$(cygpath -u $(strip $3))"; \
+	ARCH_LIB_DIR="$(cygpath -u $(strip $4))" ; \
+	SUPPORT_LIB_DIR="$(cygpath -u $(strip $5))" ; \
 	for i in etc $${ARCH_LIB_DIR} sbin usr usr/$${ARCH_LIB_DIR}; do \
 		if [ ! -d $${ARCH_SYSROOT_DIR}/$$i ] ; then \
 			continue ; \
@@ -117,7 +117,7 @@ copy_toolchain_sysroot = \
 				$${ARCH_SYSROOT_DIR}/$$i/ $(STAGING_DIR)/$$i/ ; \
 		fi ; \
 	done ; \
-	for link in $$(find $(STAGING_DIR) -type l); do \
+	for link in $$(find $(cygpath -u $(STAGING_DIR)) -type l); do \
 		target=$$(readlink $${link}) ; \
 		if [ "$${target}" == "$${target\#/}" ] ; then \
 			continue ; \

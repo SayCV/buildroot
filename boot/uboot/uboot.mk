@@ -213,6 +213,21 @@ define UBOOT_FIXUP_LIBFDT_INCLUDE
 endef
 UBOOT_POST_PATCH_HOOKS += UBOOT_FIXUP_LIBFDT_INCLUDE
 
+define UBOOT_FIXUP_KCONFIG_CRLF
+	$(if $(BR2_UBOOT_FIX_KCONFIG_CRLF),
+		python utils/pycrlf.py -u -d $(@D)
+	)
+endef
+UBOOT_POST_PATCH_HOOKS += UBOOT_FIXUP_KCONFIG_CRLF
+
+define UBOOT_FIX_FIXDEP
+	rm -rf $(@D)/arch/arm/include/asm/arch >/dev/null 2>&1
+	cp -rf utils/fixupdep.py $(@D)/fixupdep.py
+	$(SED) 's%	scripts/basic/fixdep%	python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Kbuild.include
+	$(SED) 's%	scripts/basic/fixdep%	python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Makefile.build
+endef
+UBOOT_PRE_CONFIGURE_HOOKS += UBOOT_FIX_FIXDEP
+
 ifeq ($(BR2_TARGET_UBOOT_BUILD_SYSTEM_LEGACY),y)
 define UBOOT_CONFIGURE_CMDS
 	$(TARGET_CONFIGURE_OPTS) \

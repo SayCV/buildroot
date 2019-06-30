@@ -257,6 +257,13 @@ define LINUX_TRY_PATCH_TIMECONST
 endef
 LINUX_POST_PATCH_HOOKS += LINUX_TRY_PATCH_TIMECONST
 
+define LINUX_FIX_FIXDEP
+	cp -rf utils/fixupdep.py $(@D)/fixupdep.py
+	$(SED) 's%	scripts/basic/fixdep%	python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Kbuild.include
+	#$(SED) 's%	scripts/basic/fixdep%	python \./fixupdep\.py $$(depfile); scripts/basic/fixdep%' $(@D)/scripts/Makefile.build
+endef
+LINUX_PRE_CONFIGURE_HOOKS += LINUX_FIX_FIXDEP
+
 LINUX_KERNEL_CUSTOM_LOGO_PATH = $(call qstrip,$(BR2_LINUX_KERNEL_CUSTOM_LOGO_PATH))
 ifneq ($(LINUX_KERNEL_CUSTOM_LOGO_PATH),)
 LINUX_DEPENDENCIES += host-imagemagick
